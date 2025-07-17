@@ -1,0 +1,75 @@
+.intento-container {
+  display: flex;
+  flex-direction: column;
+  gap: 25px; /* Aumentamos aún más el espacio entre filas */
+  width: 100%;
+  max-width: 1600px; /* Hacemos el contenedor aún más ancho */
+  margin: 0 auto; /* Centrar el contenedor */
+}
+
+.categorias-grid,
+.intento-grid {
+  display: grid;
+  grid-template-columns: 180px repeat(6, 1fr); /* ¡Aumentamos drásticamente el tamaño de la columna de la imagen! */
+  gap: 12px; /* Aumentamos el espacio entre columnas */
+  align-items: stretch; /* Estirar celdas para llenar la altura */
+  text-align: center;
+}
+
+.categorias-grid .grid-item {
+  font-weight: bold;
+  font-size: 1.3em; /* Tamaño de fuente de los encabezados mucho más grande */
+  padding: 20px 10px; /* Padding de los encabezados más grande */
+  background-color: #f0f0f0;
+  border-radius: 10px; /* Bordes más redondeados */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  word-break: break-word;
+}
+
+.categorias-grid .header-image {
+  background-color: transparent;
+}
+
+.intento-grid .grid-item {
+  font-size: 1.3em; /* Tamaño de fuente de los valores mucho más grande */
+  padding: 20px 10px; /* Padding de las celdas de datos más grande */
+  border-radius: 10px; /* Bordes más redondeados */
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  word-break: break-word;
+  min-height: 140px; /* Altura mínima de las celdas de datos mucho mayor */
+}
+
+.intento-grid .image-cell {
+  padding: 0;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.character-image {
+  width: 160px; /* ¡Tamaño de la imagen mucho más grande! */
+  height: 160px; /* ¡Tamaño de la imagen mucho más grande! */
+  object-fit: cover;
+  border-radius: 10px; /* Bordes más redondeados para la imagen */
+  border: 4px solid white; /* Borde de la imagen más grueso */
+}
+
+/* Clases de colores existentes (bg-success, bg-warning, bg-danger, bg-secondary) se aplicarán a .grid-item */
+.bg-success {
+  background-color: #28a745;
+}
+
+.bg-warning {
+  background-color: #ffc107;
+  color: black;
+}
+
+.bg-danger {
+  background-color: #dc3545;
+}
