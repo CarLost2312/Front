@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class DCadleService {
-urlBase: string = 'http://localhost:3000/api/personaje';
+urlBase: string = 'https://back-lku7.onrender.com/api/personaje';
 
 constructor(private http: HttpClient) {}
 
