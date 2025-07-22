@@ -4,7 +4,9 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app/app.routes'; // o donde tengas las rutas
 import { importProvidersFrom } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { MainComponent } from './app/Components/Main/main/main.component';
 
+bootstrapApplication(MainComponent).catch(err => console.error(err));
 bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(routes),

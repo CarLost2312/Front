@@ -14,60 +14,88 @@
           "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/front",
-            "baseHref": "/", 
-            "deployUrl": "/",  
+            "baseHref": "/",
+            "deployUrl": "/",
             "browser": "src/main.ts",
+            "index": "src/index.html",
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               {
                 "glob": "**/*",
-                "input": "src/assets", 
+                "input": "src/assets",
                 "output": "/assets/"
               }
             ],
             "styles": [
-              "src/styles.css",  
+              "src/styles.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
             "scripts": [
               "node_modules/@popperjs/core/dist/umd/popper.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js"
             ],
-            "optimization": true,  
-            "aot": true  
+            "optimization": true,
+            "aot": true
           },
+       "configurations": {
+  "production": {
+    "fileReplacements": [
+      {
+        "replace": "src/environments/environment.ts",
+        "with": "src/environments/environment.prod.ts"
+      }
+    ],
+    "optimization": true,
+    "outputHashing": "all",
+    "sourceMap": false,
+    "namedChunks": false,
+    "extractLicenses": true,
+ 
+    "budgets": [
+      {
+        "type": "initial",
+        "maximumWarning": "1mb",
+        "maximumError": "2mb"
+      },
+      {
+        "type": "anyComponentStyle",
+        "maximumWarning": "6kb",
+        "maximumError": "10kb"
+      }
+    ]
+  }
+},
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "1MB",  
-                  "maximumError": "2MB"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kB",
-                  "maximumError": "10kB"
-                }
-              ],
-              "outputHashing": "all",
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
-                }
-              ]
+              "buildTarget": "front:build:production"
             },
             "development": {
-              "optimization": false,
-              "extractLicenses": false,
-              "sourceMap": true
+              "buildTarget": "front:build:development"
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "development"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "polyfills": ["zone.js", "zone.js/testing"],
+            "tsConfig": "tsconfig.spec.json",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "/assets/"
+              }
+            ],
+            "styles": ["src/styles.css"],
+            "scripts": []
+          }
         }
-       
       }
     }
   }
