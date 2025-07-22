@@ -35,38 +35,43 @@
               "node_modules/@popperjs/core/dist/umd/popper.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js"
             ],
-            "optimization": true,
             "aot": true
           },
-       "configurations": {
-  "production": {
-    "fileReplacements": [
-      {
-        "replace": "src/environments/environment.ts",
-        "with": "src/environments/environment.prod.ts"
-      }
-    ],
-    "optimization": true,
-    "outputHashing": "all",
-    "sourceMap": false,
-    "namedChunks": false,
-    "extractLicenses": true,
- 
-    "budgets": [
-      {
-        "type": "initial",
-        "maximumWarning": "1mb",
-        "maximumError": "2mb"
-      },
-      {
-        "type": "anyComponentStyle",
-        "maximumWarning": "6kb",
-        "maximumError": "10kb"
-      }
-    ]
-  }
-},
-          "defaultConfiguration": "production"
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "1mb",
+                  "maximumError": "2mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            },
+            "development": {
+              "optimization": false,
+              "sourceMap": true,
+              "extractLicenses": false,
+              "watch": true,
+              "outputHashing": "none"
+            }
+          },
+          "defaultConfiguration": "development"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
