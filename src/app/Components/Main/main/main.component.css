@@ -73,3 +73,15 @@
 .bg-danger {
   background-color: #dc3545;
 }
+
+
+.intento-correcto {
+  border: 3px solid gold;
+  box-shadow: 0 0 12px gold;
+  animation: popIn 0.5s ease;
+}
+
+@keyframes popIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}

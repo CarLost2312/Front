@@ -51,7 +51,9 @@
     <div class="grid-item header">EQUIPO(S)</div>
   </div>
 
-  <div class="intento-grid" *ngFor="let intento of intentos">
+<div class="intento-grid" 
+     *ngFor="let intento of intentos"
+     [ngClass]="{ 'intento-correcto': intento._id === personajeObjetivo?._id }">
     <div class="grid-item image-cell">
       <img [src]="intento.foto" [alt]="intento.nombre" class="character-image" />
     </div>

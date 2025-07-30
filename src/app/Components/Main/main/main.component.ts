@@ -70,64 +70,65 @@ export class MainComponent implements OnInit {
   }
 
   enviarPersonaje(): void {
-    if (!this.personajeSeleccionado) {
-      alert('Por favor, selecciona un personaje antes de enviar.');
-      return;
-    }
+  if (!this.personajeSeleccionado) {
+    alert('Por favor, selecciona un personaje antes de enviar.');
+    return;
+  }
 
-    if (!this.personajeObjetivo) {
-      console.error('No se ha definido un personaje objetivo. No se puede comparar.');
-      return;
-    }
+  if (!this.personajeObjetivo) {
+    console.error('No se ha definido un personaje objetivo. No se puede comparar.');
+    return;
+  }
 
-    const atributosAConsiderar = [
-      'genero',
-      'rol',
-      'origen',
-      'especie',
-      'equipo',
-      'poderes'
-    ];
+  const atributosAConsiderar = [
+    'genero',
+    'rol',
+    'origen',
+    'especie',
+    'equipo',
+    'poderes'
+  ];
 
-    if (this.personajeSeleccionado._id === this.personajeObjetivo._id) {
-      const modalElement = document.getElementById('successModal');
-      if (modalElement) {
-        const modal = new bootstrap.Modal(modalElement);
-        modal.show();
-      }
-    } else {
-      const atributosComparados = atributosAConsiderar.map(attr => {
-        const valorSeleccionado = this.personajeSeleccionado[attr];
-        const valorDisplay = Array.isArray(valorSeleccionado)
-          ? valorSeleccionado.join(', ')
-          : valorSeleccionado;
-           console.log("Cualidades: ",valorDisplay)
-          
+  const atributosComparados = atributosAConsiderar.map(attr => {
+    const valorSeleccionado = this.personajeSeleccionado[attr];
+    const valorDisplay = Array.isArray(valorSeleccionado)
+      ? valorSeleccionado.join(', ')
+      : valorSeleccionado;
 
-        return {
-          nombre: this.capitalizeFirstLetter(attr),
-          valorDisplay,
-         
-          valorOriginal: valorSeleccionado,
-       
-        };
-      });
+    return {
+      nombre: this.capitalizeFirstLetter(attr),
+      valorDisplay,
+      valorOriginal: valorSeleccionado,
+    };
+  });
 
-      this.intentos.unshift({
-        ...this.personajeSeleccionado,
-        atributosComparados
-      });
+  // Agrega el intento a la lista (incluso si es correcto)
+  this.intentos.unshift({
+    ...this.personajeSeleccionado,
+    atributosComparados
+  });
 
-      this.personajesDisponibles = this.personajesDisponibles.filter(
-        p => p._id !== this.personajeSeleccionado._id
-      );
-
-      this.personajeSeleccionado = null;
-      this.nombreBusqueda = '';
-      this.resultadosFiltrados = [];
-      this.mostrarSugerencias = false;
+  // Mostrar modal si ganó
+  if (this.personajeSeleccionado._id === this.personajeObjetivo._id) {
+    const modalElement = document.getElementById('successModal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
     }
   }
+
+  // Eliminar el personaje de los disponibles
+  this.personajesDisponibles = this.personajesDisponibles.filter(
+    p => p._id !== this.personajeSeleccionado._id
+  );
+
+  // Limpiar selección y búsqueda
+  this.personajeSeleccionado = null;
+  this.nombreBusqueda = '';
+  this.resultadosFiltrados = [];
+  this.mostrarSugerencias = false;
+}
+
 
   capitalizeFirstLetter(string: string): string {
     if (!string) return '';
@@ -151,31 +152,36 @@ reiniciarJuego(): void {
 getColor(attr: string, valorIntento: any): string {
   const valorObjetivo = this.personajeObjetivo ? this.personajeObjetivo[attr] : null;
 
-  if (valorObjetivo === null || valorIntento === undefined) {
-    return 'bg-secondary';
-  }
-
-  // Para arrays (poderes, equipo, especie)
   if (Array.isArray(valorIntento) && Array.isArray(valorObjetivo)) {
-    const filteredIntento = valorIntento.filter((item: string) => item.toLowerCase() !== 'ninguno' && item !== '');
-    const filteredObjetivo = valorObjetivo.filter((item: string) => item.toLowerCase() !== 'ninguno' && item !== '');
+  const normalizar = (item: string) =>
+    item.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
 
-    if (filteredIntento.length === 0 && filteredObjetivo.length === 0) {
-      return 'bg-success';
-    }
+  const intentoNormalizado = valorIntento
+    .filter((item: string) => item.toLowerCase() !== 'ninguno' && item !== '')
+    .map(normalizar);
 
-    const allMatch = filteredIntento.length === filteredObjetivo.length &&
-      filteredIntento.every((item: string) => filteredObjetivo.includes(item));
-    const anyMatch = filteredIntento.some((item: string) => filteredObjetivo.includes(item));
+  const objetivoNormalizado = valorObjetivo
+    .filter((item: string) => item.toLowerCase() !== 'ninguno' && item !== '')
+    .map(normalizar);
 
-    if (allMatch) {
-      return 'bg-success';
-    } else if (anyMatch) {
-      return 'bg-warning';
-    } else {
-      return 'bg-danger';
-    }
+  if (intentoNormalizado.length === 0 && objetivoNormalizado.length === 0) {
+    return 'bg-success';
   }
+
+  const allMatch = intentoNormalizado.length === objetivoNormalizado.length &&
+    intentoNormalizado.every((item: string) => objetivoNormalizado.includes(item));
+
+  const anyMatch = intentoNormalizado.some((item: string) => objetivoNormalizado.includes(item));
+
+  if (allMatch) {
+    return 'bg-success';
+  } else if (anyMatch) {
+    return 'bg-warning';
+  } else {
+    return 'bg-danger';
+  }
+}
+
 
   // Comparación directa
   return valorIntento === valorObjetivo ? 'bg-success' : 'bg-danger';
