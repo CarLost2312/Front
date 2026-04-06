@@ -1,11 +1,11 @@
 <div class="BG-Wrapper">
 
   <section class="Searcher-Wrapper">
-    <h2 class="text-primary mb-4 text-center">Seleccionar Personaje</h2>
+    <img src="assets/img/logo.png" alt="Seleccionar Personaje" class="mb-4 d-block mx-auto" width="200" />
     <div class="Searcher">
       <div class="col-md-6 d-flex flex-column align-items-center gap-3">
         <div class="w-100 position-relative">
-          <label for="busqueda" class="form-label">Buscar Personaje</label>
+          <label for="busqueda" class="form-label"></label>
           <input id="busqueda" type="text" class="form-control py-3 fs-5" placeholder="Escriba el nombre del personaje"
             [(ngModel)]="nombreBusqueda" (input)="filtrarPersonajes()" (blur)="ocultarResultadosConDelay()"
             (focus)="mostrarSugerencias = true" autocomplete="off" />
@@ -31,7 +31,8 @@
   <div *ngIf="intentos.length > 0" class="w-100 mt-5 main-attempts-grid">
     <div class="intento-container">
       <div class="categorias-grid">
-        <div class="grid-item header-image"></div>
+    
+          <div class="grid-item header-image">PERSONAJE</div>
         <div class="grid-item header">GENERO</div>
         <div class="grid-item header">ROL</div>
         <div class="grid-item header">ESPECIE(S)</div>
@@ -67,22 +68,22 @@
     </div>
   </div>
 
-  <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-      <div class="modal-content text-center">
-        <div class="modal-header bg-success text-white">
-          <h5 class="modal-title" id="successModalLabel">¡Lo lograste! 🎉</h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content modal-custom text-center">
+      <div class="modal-header modal-header-custom border-0">
+        <h5 class="modal-title w-100 fs-3 fw-bold" id="successModalLabel">¡Lo lograste!</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body modal-body-custom">
+        <h3 class="mb-4 fw-bold text-white text-shadow-custom">{{ personajeObjetivo?.nombre }}</h3>
+        <div class="img-wrapper">
+          <img [src]="personajeObjetivo?.foto" alt="{{ personajeObjetivo?.nombre }}" class="character-modal-img" />
         </div>
-        <div class="modal-body">
-          <h3 class="mb-3 text-primary">{{ personajeObjetivo?.nombre }}</h3>
-          <img [src]="personajeObjetivo?.foto" alt="{{ personajeObjetivo?.nombre }}" class="img-fluid rounded shadow"
-            style="max-height: 400px; object-fit: contain;" />
-          <div class="mt-4">
-            <button class="btn btn-primary" (click)="reiniciarJuego()" data-bs-dismiss="modal">
-              Jugar de nuevo
-            </button>
-          </div>
+        <div class="mt-4">
+          <button class="btn btn-outline-light px-5 py-2 fs-5 fw-bold" (click)="reiniciarJuego()" data-bs-dismiss="modal">
+             Jugar de nuevo
+          </button>
         </div>
       </div>
     </div>

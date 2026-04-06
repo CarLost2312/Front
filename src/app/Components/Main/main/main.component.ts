@@ -69,65 +69,71 @@ export class MainComponent implements OnInit {
     }
   }
 
-  enviarPersonaje(): void {
-    if (!this.personajeSeleccionado) {
-      alert('Por favor, selecciona un personaje antes de enviar.');
-      return;
-    }
+ enviarPersonaje(): void {
+  if (!this.personajeSeleccionado) {
+    alert('Por favor, selecciona un personaje antes de enviar.');
+    return;
+  }
 
-    if (!this.personajeObjetivo) {
-      console.error('No se ha definido un personaje objetivo. No se puede comparar.');
-      return;
-    }
+  if (!this.personajeObjetivo) {
+    console.error('No se ha definido un personaje objetivo. No se puede comparar.');
+    return;
+  }
 
-    const atributosAConsiderar = [
-      'genero',
-      'rol',
-      'origen',
-      'especie',
-      'equipo',
-      'poderes'
-    ];
+  const atributosAConsiderar = [
+    'genero',
+    'rol',
+    'origen',
+    'especie',
+    'equipo',
+    'poderes'
+  ];
 
-    if (this.personajeSeleccionado._id === this.personajeObjetivo._id) {
+  const atributosComparados = atributosAConsiderar.map(attr => {
+    const valorSeleccionado = this.personajeSeleccionado[attr];
+    const valorDisplay = Array.isArray(valorSeleccionado)
+      ? valorSeleccionado.join(', ')
+      : valorSeleccionado;
+
+    return {
+      nombre: this.capitalizeFirstLetter(attr),
+      valorDisplay,
+      valorOriginal: valorSeleccionado,
+    };
+  });
+
+  // 👉 Agregar a los intentos primero
+  this.intentos.unshift({
+    ...this.personajeSeleccionado,
+    atributosComparados
+  });
+
+  // 👉 Si ganó, mostrar el modal DESPUÉS
+  const esGanador = this.personajeSeleccionado._id === this.personajeObjetivo._id;
+
+  // Actualiza los disponibles
+  this.personajesDisponibles = this.personajesDisponibles.filter(
+    p => p._id !== this.personajeSeleccionado._id
+  );
+
+  // Limpiar selección
+  this.personajeSeleccionado = null;
+  this.nombreBusqueda = '';
+  this.resultadosFiltrados = [];
+  this.mostrarSugerencias = false;
+
+  // Mostrar el modal (con pequeño delay para que se vea reflejado en la vista)
+  if (esGanador) {
+    setTimeout(() => {
       const modalElement = document.getElementById('successModal');
       if (modalElement) {
         const modal = new bootstrap.Modal(modalElement);
         modal.show();
       }
-    } else {
-      const atributosComparados = atributosAConsiderar.map(attr => {
-        const valorSeleccionado = this.personajeSeleccionado[attr];
-        const valorDisplay = Array.isArray(valorSeleccionado)
-          ? valorSeleccionado.join(', ')
-          : valorSeleccionado;
-           console.log("Cualidades: ",valorDisplay)
-          
-
-        return {
-          nombre: this.capitalizeFirstLetter(attr),
-          valorDisplay,
-         
-          valorOriginal: valorSeleccionado,
-       
-        };
-      });
-
-      this.intentos.unshift({
-        ...this.personajeSeleccionado,
-        atributosComparados
-      });
-
-      this.personajesDisponibles = this.personajesDisponibles.filter(
-        p => p._id !== this.personajeSeleccionado._id
-      );
-
-      this.personajeSeleccionado = null;
-      this.nombreBusqueda = '';
-      this.resultadosFiltrados = [];
-      this.mostrarSugerencias = false;
-    }
+    }, 100); // 100ms para asegurar que Angular renderice primero
   }
+}
+
 
   capitalizeFirstLetter(string: string): string {
     if (!string) return '';

@@ -52,16 +52,26 @@
   font-weight: bolder;
   font-size: 1.2em;
   padding: 10px;
-  background-color: #f0f0f0;
+   background: rgba(10, 40, 100, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   word-break: break-word;
+  color: white;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
 }
 
 .categorias-grid .header-image {
-  background-color: transparent;
+  background: rgba(10, 40, 100, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
 }
 
 .intento-grid .grid-item {
@@ -98,7 +108,8 @@
   height: 150px;
   object-fit: cover;
   border-radius: 10px;
-  border: 4px solid white;
+  border: 4px solid rgba(10, 40, 100, 0.9);
+  box-shadow: 0 0 12px rgba(10, 40, 100, 0.7);
 }
 
 /* Clases de colores existentes (bg-success, bg-warning, bg-danger, bg-secondary) se aplicarán a .grid-item */
@@ -113,4 +124,42 @@
 
 .bg-danger {
   background-color: #dc3545;
+}
+
+
+.modal-custom {
+  background: rgba(10, 40, 100, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  color: white;
+}
+
+.modal-header-custom {
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+  border-radius: 20px 20px 0 0;
+  padding: 1.2rem 1.5rem;
+}
+
+.modal-body-custom {
+  padding: 2rem;
+}
+
+.img-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.character-modal-img {
+  max-height: 380px;
+  object-fit: contain;
+  border-radius: 16px;
+  border: 3px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.text-shadow-custom {
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
 }
